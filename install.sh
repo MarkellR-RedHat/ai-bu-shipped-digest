@@ -7,34 +7,48 @@ COMMANDS_DIR="$HOME/.claude/commands"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Installing shipped-digest commands..."
+echo ""
 
+# Create commands directory if it does not exist
 mkdir -p "$COMMANDS_DIR"
 
-cp "$SCRIPT_DIR/commands/shipped.md" "$COMMANDS_DIR/shipped.md"
-cp "$SCRIPT_DIR/commands/shipped-compare.md" "$COMMANDS_DIR/shipped-compare.md"
-cp "$SCRIPT_DIR/commands/shipped-email.md" "$COMMANDS_DIR/shipped-email.md"
-cp "$SCRIPT_DIR/commands/shipped-slack.md" "$COMMANDS_DIR/shipped-slack.md"
-cp "$SCRIPT_DIR/commands/shipped-release-notes.md" "$COMMANDS_DIR/shipped-release-notes.md"
-cp "$SCRIPT_DIR/commands/shipped-metrics.md" "$COMMANDS_DIR/shipped-metrics.md"
-cp "$SCRIPT_DIR/commands/shipped-narrative.md" "$COMMANDS_DIR/shipped-narrative.md"
-cp "$SCRIPT_DIR/commands/shipped-celebration.md" "$COMMANDS_DIR/shipped-celebration.md"
-cp "$SCRIPT_DIR/commands/shipped-delta.md" "$COMMANDS_DIR/shipped-delta.md"
+# List of commands to install
+COMMANDS=(
+  "shipped"
+  "shipped-compare"
+  "shipped-email"
+  "shipped-slack"
+  "shipped-release-notes"
+  "shipped-metrics"
+  "shipped-narrative"
+  "shipped-celebration"
+  "shipped-delta"
+)
 
-echo ""
-echo "Installed 9 commands:"
+INSTALLED=0
+for cmd in "${COMMANDS[@]}"; do
+  if [ -f "$SCRIPT_DIR/commands/${cmd}.md" ]; then
+    cp "$SCRIPT_DIR/commands/${cmd}.md" "$COMMANDS_DIR/${cmd}.md"
+    INSTALLED=$((INSTALLED + 1))
+  else
+    echo "  Warning: commands/${cmd}.md not found, skipping"
+  fi
+done
+
+echo "Installed ${INSTALLED} commands to ${COMMANDS_DIR}:"
 echo ""
 echo "  Core digests:"
-echo "  /shipped                - Story-driven changelog digest for a repo"
-echo "  /shipped-email          - Stakeholder email a VP would read and forward"
-echo "  /shipped-slack          - Slack message with mrkdwn formatting, ready to paste"
-echo "  /shipped-release-notes  - GitHub Release-style notes for CHANGELOG or release pages"
-echo "  /shipped-compare        - Cross-repo comparison with unified analysis"
-echo "  /shipped-metrics        - Pure quantitative metrics and health indicators"
+echo "    /shipped                Story-driven digest grouped by themes"
+echo "    /shipped-email          Stakeholder email a VP would forward"
+echo "    /shipped-slack          Slack message, ready to paste"
+echo "    /shipped-release-notes  GitHub Release notes with attribution"
+echo "    /shipped-compare        Cross-repo comparison with unified analysis"
+echo "    /shipped-metrics        Quantitative metrics and health indicators"
 echo ""
-echo "  New commands:"
-echo "  /shipped-narrative      - 3-5 paragraph narrative for all-hands and blog posts"
-echo "  /shipped-celebration    - Team highlight reel with shoutouts for Slack"
-echo "  /shipped-delta          - Period-over-period trend analysis with deltas"
+echo "  Narrative and celebration:"
+echo "    /shipped-narrative      Prose narrative for all-hands and blog posts"
+echo "    /shipped-celebration    Team highlight reel with specific shoutouts"
+echo "    /shipped-delta          Period-over-period trend analysis"
 echo ""
 echo "Reference templates are in the reference/ and formats/ directories."
 echo ""

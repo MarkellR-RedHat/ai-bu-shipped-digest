@@ -1,19 +1,28 @@
 # ai-bu-shipped-digest
 
-Claude Code slash commands that turn a repo's merged PRs into digests worth reading. Not just changelogs. Stories of what your team shipped, told well enough that leadership forwards them and engineers feel proud.
+Your team shipped 23 PRs this week. Can you explain what that means to someone who wasn't in the code?
 
-Built for engineering leads, PMs, and PMMs who need to know what shipped without reading every PR.
+Most engineering leads can't. Not because the work wasn't valuable, but because translating PRs into a story takes time they'd rather spend writing code. So the work stays invisible. Leadership doesn't know what shipped. Team members don't get recognized. The person who spent three days upgrading dependencies and patching a critical CVE gets the same acknowledgment as the person who fixed a typo: none.
+
+These are Claude Code slash commands that turn a repo's merged PRs into digests worth reading. Not changelogs. Stories. The kind that leadership forwards, engineers feel proud of, and the person who did the invisible infrastructure work finally sees their contribution named and explained.
 
 ## What Makes This Different
 
 Most changelog tools dump PRs into buckets: features, bugs, docs. That is useful but boring. These commands find the narrative thread in your team's work, group related PRs into themes, assess impact honestly, and produce output tailored to the audience.
 
+A dependency upgrade becomes: "Upgraded 14 dependencies including a critical security patch for CVE-2024-XXXX. The kind of invisible work that keeps production running."
+
+A set of performance PRs becomes: "What started as a P95 latency investigation turned into a 4-PR refactor that cut response times by 74%."
+
+Infrastructure work gets the same narrative treatment as features, because both are worth celebrating.
+
 Every command includes:
 - **Theme-based grouping** that tells a coherent story, not just a category list
 - **Intelligent PR clustering** that recognizes feature + follow-up fix pairs, multi-part work, and revert/re-land sequences
 - **Honest impact sizing** tagged as `[L]`, `[M]`, or `[S]` based on lines, files, and user-facing scope
-- **Self-critique** that verifies related PRs are grouped, impact is not inflated, and maintenance work is acknowledged without being dressed up
-- **Contributor attribution** that tracks who drove the work
+- **Infrastructure elevation** that explains why maintenance work matters instead of burying it under "Housekeeping"
+- **Self-critique** that verifies related PRs are grouped, impact is not inflated, and maintenance work is acknowledged with proper context
+- **Contributor attribution** that tracks who drove the work, including the unglamorous work
 
 ## Commands
 
@@ -62,7 +71,7 @@ Alternatively, clone this repo into your project's `.claude/commands/` directory
 /shipped kubernetes/kubernetes last month
 ```
 
-Produces a narrative digest with themes like "Making the scheduler production-ready" and "Hardening CI/CD reliability" instead of flat category lists. Each theme shows its impact and attributes contributors.
+Produces a narrative digest with themes like "Making the scheduler production-ready" and "Hardening CI/CD reliability" instead of flat category lists. Infrastructure work gets elevated with impact context, not buried in a housekeeping section.
 
 ### Stakeholder email
 
@@ -70,15 +79,7 @@ Produces a narrative digest with themes like "Making the scheduler production-re
 /shipped-email openshift/lightspeed-service last week
 ```
 
-Produces an email with a subject line worth opening, a 50-word opening paragraph that tells the full story, and a "What Matters Most" section focused on user and business impact. Under 500 words.
-
-### Slack message
-
-```
-/shipped-slack my-org/my-repo last month
-```
-
-Produces a Slack-native message with mrkdwn formatting, emoji section headers, and a compressed housekeeping section. Optimized for scannability.
+Produces an email with a subject line worth opening, a 50-word opening paragraph that tells the full story, and a "What Matters Most" section focused on user and business impact. Under 500 words. The kind of email an engineering lead would send if they enjoyed writing.
 
 ### Narrative for all-hands
 
@@ -86,7 +87,13 @@ Produces a Slack-native message with mrkdwn formatting, emoji section headers, a
 /shipped-narrative openshift/lightspeed-service Q2 2026
 ```
 
-Produces 3-5 paragraphs of prose that tell the story of what the team built and why it matters. Written so a non-technical stakeholder can follow along. Includes a setup (the challenges), action (what shipped), and forward look (what this enables next).
+This is where raw PR data becomes a story a VP would read. Instead of "52 PRs merged by 12 contributors," you get:
+
+> Going into Q2, the lightspeed-service team faced a clear challenge: the query pipeline worked, but it was not production-ready. Answer relevance hovered around acceptable levels, response times were too slow for interactive use, and the system buckled under sustained load. The team set out to fix all three.
+>
+> The centerpiece of the quarter was the new hybrid retrieval pipeline, led by @saldana, which replaced the single-vector lookup with a combined dense and sparse approach. Internal benchmarks showed a 23% improvement in answer relevance. @jchen followed up with streaming response support, cutting perceived latency from 8 seconds to under 1 second for long answers.
+
+The narrative weaves infrastructure work into the story naturally. @bpatel's CI migration and load testing are part of the story of getting production-ready, not an afterthought section.
 
 ### Team celebration
 
@@ -94,7 +101,29 @@ Produces 3-5 paragraphs of prose that tell the story of what the team built and 
 /shipped-celebration kubernetes/kubernetes last sprint
 ```
 
-Produces a Slack-ready highlight reel with specific shoutouts: biggest impact PR, most prolific contributor, fastest merge turnaround, most reviewed PR, first-time contributors, and long-standing issues finally fixed. Every shoutout names the person, links the PR, and explains why it stands out.
+Produces a Slack-ready highlight reel with specific shoutouts. Not "great job, team" but:
+
+> :rocket: *Biggest Impact*
+> Add pod topology spread constraints for scheduler by @liggitt (#118234)
+> This unlocks zone-aware scheduling for multi-region clusters, one of the most requested features in the past year.
+>
+> :zap: *Speed Demon*
+> Fix typo in kubelet config docs by @dims (#118301)
+> Merged in 47 minutes from open to merge.
+>
+> :calendar: *Finally Fixed*
+> Fix race condition in node lifecycle controller by @wojtek-t (#118245)
+> This closed #94102, which had been open for 14 months.
+
+Every shoutout names the person, links the PR, and explains why it matters.
+
+### Slack message
+
+```
+/shipped-slack my-org/my-repo last month
+```
+
+Produces a Slack-native message with mrkdwn formatting, emoji section headers, and a compressed housekeeping section with impact context. Optimized for scannability.
 
 ### Trend analysis
 
@@ -102,7 +131,7 @@ Produces a Slack-ready highlight reel with specific shoutouts: biggest impact PR
 /shipped-delta my-org/my-repo last 2 weeks
 ```
 
-Compares the current period against the immediately prior period of equal length. Shows volume, velocity, contributor, and focus deltas with up/down/stable indicators. Key observations call out meaningful shifts and distinguish signal from noise.
+Compares the current period against the immediately prior period of equal length. Shows volume, velocity, contributor, and focus deltas with up/down/stable indicators. Key observations distinguish meaningful shifts from normal variation.
 
 ### Cross-repo comparison
 
@@ -128,164 +157,6 @@ Produces GitHub Release-style notes ready to paste into a release page or CHANGE
 
 Pure numbers: volume, size distribution, merge velocity, contributor breakdown, category mix, temporal patterns, and health indicators (small PR percentage, feature-to-fix ratio, contributor diversity).
 
-## Example Output
-
-Running `/shipped openshift/lightspeed-service last month` produces something like:
-
-```
-# What Shipped: lightspeed-service
-## Last month (May 27 to June 26, 2026)
-
-> **The story:** The team spent this period making the query pipeline production-ready
-> and expanding the API surface for integrations. The biggest wins were hybrid
-> retrieval (a 23% relevance improvement) and streaming responses (perceived
-> latency dropped from 8s to under 1s). Infrastructure work focused on migrating
-> CI to Tekton and adding load testing at scale.
-
-### Worth Knowing
-
-1. **Add RAG pipeline v2 with hybrid retrieval** - Replaces single-vector lookup
-   with dense+sparse retrieval, improving answer relevance by 23% on internal
-   benchmarks. (#892) `[L]`
-2. **Streaming response support for /v1/query** - Cuts perceived latency for long
-   answers from 8s to under 1s by streaming tokens as generated. (#878) `[L]`
-3. **Fix OOM on large context windows** - Resolved a memory leak when processing
-   documents over 32k tokens that caused pods to get OOMKilled under sustained
-   load. (#901) `[M]`
-
----
-
-### Making the Query Pipeline Production-Ready (High Impact)
-The team shipped hybrid retrieval and streaming responses while fixing the OOM
-issue that was blocking sustained production load.
-
-- Add RAG pipeline v2 with hybrid retrieval (#892) `[L]` @saldana
-  - Follow-up: Fix sparse index path resolution on S3 (#907) `[S]` @saldana
-- Streaming response support for /v1/query (#878) `[L]` @jchen
-- Fix OOM on large context windows (#901) `[M]` @tkurian
-- Cache embedding results for repeated document chunks (#903) `[M]` @jchen
-
-### Expanding the API Surface (Medium Impact)
-New endpoints for feedback collection and per-namespace prompt customization.
-
-- Add /v1/feedback endpoint for answer rating (#885) `[M]` @mrawls
-- Support custom system prompts per namespace (#871) `[M]` @mrawls
-
-### CI/CD and Infrastructure (Medium Impact)
-Migrated the build pipeline to Tekton and added load testing at 500 concurrent users.
-
-- Migrate CI to Tekton pipelines (#880) `[M]` @bpatel
-- Add load test suite targeting 500 concurrent users (#887) `[L]` @bpatel
-
-### Housekeeping
-Dependency updates and minor fixes that keep things running.
-
-- Bump Python to 3.12, update all pinned deps (#876) `[S]` @saldana
-- Handle empty embedding responses from provider (#894) `[S]` @jchen
-- Correct token counting for multi-turn conversations (#889) `[S]` @mrawls
-
-### Breaking Changes
-
-> **Action required:** Clients using the deprecated /v1/ask endpoint must migrate
-> to /v1/query. See the migration guide in the PR description.
-
-- Remove deprecated /v1/ask endpoint (#899) `[L]` @saldana
-
----
-
-### Contributors
-
-| Contributor | PRs | Themes |
-|-------------|-----|--------|
-| @saldana    | 5   | Query Pipeline, Housekeeping, Breaking Changes |
-| @jchen      | 4   | Query Pipeline, Housekeeping |
-| @mrawls     | 3   | API Surface, Housekeeping |
-| @tkurian    | 2   | Query Pipeline |
-| @bpatel     | 2   | CI/CD and Infrastructure |
-
----
-*18 PRs merged by 7 contributors, 2 releases tagged.*
-```
-
-Running `/shipped-celebration kubernetes/kubernetes last sprint` produces:
-
-```
-:trophy: Ship It Awards: kubernetes
-
-:tada: The team merged 42 PRs from 18 contributors this sprint. Here are the
-standout moments:
-
-:rocket: Biggest Impact
-Add pod topology spread constraints for scheduler by @liggitt (#118234)
-This unlocks zone-aware scheduling for multi-region clusters, one of the most
-requested features in the past year.
-
-:medal: Most Prolific
-@aojea shipped 7 PRs this sprint, driving network policy improvements and
-e2e test coverage.
-
-:zap: Speed Demon
-Fix typo in kubelet config docs by @dims (#118301)
-Merged in 47 minutes from open to merge.
-
-:wave: Welcome, New Contributor!
-@sarah-chen landed their first PR: Add validation for custom resource field
-selectors (#118289). Welcome to the team!
-
-:calendar: Finally Fixed
-Fix race condition in node lifecycle controller by @wojtek-t (#118245)
-This closed #94102, which had been open for 14 months. The long wait is over.
-
-:clap: Great work, team. Keep shipping.
-```
-
-Running `/shipped-narrative openshift/lightspeed-service Q2 2026` produces:
-
-```
-# lightspeed-service: What We Shipped
-## Q2 2026 (April 1 to June 30, 2026)
-
-Going into Q2, the lightspeed-service team faced a clear challenge: the query
-pipeline worked, but it was not production-ready. Answer relevance hovered around
-acceptable levels, response times were too slow for interactive use, and the
-system buckled under sustained load. The team set out to fix all three.
-
-The centerpiece of the quarter was the new hybrid retrieval pipeline, led by
-@saldana, which replaced the single-vector lookup with a combined dense and
-sparse approach. Internal benchmarks showed a 23% improvement in answer
-relevance. @jchen followed up with streaming response support, cutting perceived
-latency from 8 seconds to under 1 second for long answers. Together, these two
-changes transformed the query experience from "wait and see" to "watch it think."
-On the reliability front, @tkurian tracked down a memory leak in large-context
-processing that had been causing OOMKills under load, closing one of the team's
-longest-standing production issues.
-
-Beyond the core pipeline, the team expanded the API to support new integration
-patterns. @mrawls shipped a feedback endpoint for answer rating and per-namespace
-custom system prompts, giving downstream teams the hooks they need to build on
-top of the service. Meanwhile, @bpatel migrated the entire CI pipeline to Tekton
-and stood up a load test suite targeting 500 concurrent users, giving the team
-confidence that what they shipped can handle real-world traffic.
-
-The numbers tell a healthy story: 52 PRs merged by 12 contributors across 6
-releases. The team maintained a median time-to-merge of 1.8 days, with 60% of
-PRs classified as small, suggesting a disciplined approach of frequent, focused
-merges rather than large, risky changesets.
-
-With the query pipeline now production-hardened and the API surface expanding,
-the groundwork is set for Q3's focus on multi-tenant support and external
-integrations. The feedback endpoint and per-namespace prompts are the foundation
-that work will build on.
-
----
-
-*Key contributors: @saldana, @jchen, @mrawls, @tkurian, @bpatel, and 7 others.*
-*Based on 52 merged pull requests and 6 releases.*
-
-**Detailed changelog:** Run `/shipped openshift/lightspeed-service Q2 2026` for
-the full breakdown.
-```
-
 ## Reference Materials
 
 ### Format Templates
@@ -309,7 +180,7 @@ The `reference/digest-templates.md` file provides formatting guidance for adapti
 
 The commands use the GitHub CLI (`gh`) to pull merged PRs and releases from the GitHub API. They analyze each PR by reading its title, body, and labels to understand context and purpose. Related PRs are clustered into themes based on shared goals, not just surface-level categories. Each PR is sized by lines changed and files touched. The output is tailored to the target audience and format.
 
-The key difference from traditional changelog generators: these commands find the narrative in the work, not just the list. A feature PR, its follow-up fix, and the related performance improvement become one story, not three disconnected line items.
+The key difference from traditional changelog generators: these commands find the narrative in the work, not just the list. A feature PR, its follow-up fix, and the related performance improvement become one story, not three disconnected line items. Infrastructure work gets the same storytelling treatment as features, because the person who kept production running deserves to have that work explained, not just listed.
 
 No data leaves your machine beyond the standard GitHub API calls that `gh` already makes.
 
