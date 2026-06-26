@@ -1,18 +1,15 @@
 #!/bin/bash
-# install.sh - Install shipped-digest commands into Claude Code
+# -------------------------------------------------------
+# shipped-digest installer
+# Copies slash commands into ~/.claude/commands/ so they
+# are available globally in Claude Code.
+# -------------------------------------------------------
 
 set -e
 
 COMMANDS_DIR="$HOME/.claude/commands"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "Installing shipped-digest commands..."
-echo ""
-
-# Create commands directory if it does not exist
-mkdir -p "$COMMANDS_DIR"
-
-# List of commands to install
 COMMANDS=(
   "shipped"
   "shipped-compare"
@@ -25,31 +22,43 @@ COMMANDS=(
   "shipped-delta"
 )
 
+echo ""
+echo "shipped-digest installer"
+echo "========================"
+echo ""
+
+# Create commands directory if it does not exist
+if [ ! -d "$COMMANDS_DIR" ]; then
+  echo "Creating $COMMANDS_DIR ..."
+  mkdir -p "$COMMANDS_DIR"
+fi
+
+# Install each command, showing progress
 INSTALLED=0
+FAILED=0
 for cmd in "${COMMANDS[@]}"; do
-  if [ -f "$SCRIPT_DIR/commands/${cmd}.md" ]; then
-    cp "$SCRIPT_DIR/commands/${cmd}.md" "$COMMANDS_DIR/${cmd}.md"
+  SRC="$SCRIPT_DIR/commands/${cmd}.md"
+  if [ -f "$SRC" ]; then
+    cp "$SRC" "$COMMANDS_DIR/${cmd}.md"
+    echo "  installed  /${cmd}"
     INSTALLED=$((INSTALLED + 1))
   else
-    echo "  Warning: commands/${cmd}.md not found, skipping"
+    echo "  SKIPPED    /${cmd}  (source file not found)"
+    FAILED=$((FAILED + 1))
   fi
 done
 
-echo "Installed ${INSTALLED} commands to ${COMMANDS_DIR}:"
 echo ""
-echo "  Core digests:"
-echo "    /shipped                Story-driven digest grouped by themes"
-echo "    /shipped-email          Stakeholder email a VP would forward"
-echo "    /shipped-slack          Slack message, ready to paste"
-echo "    /shipped-release-notes  GitHub Release notes with attribution"
-echo "    /shipped-compare        Cross-repo comparison with unified analysis"
-echo "    /shipped-metrics        Quantitative metrics and health indicators"
+
+if [ "$FAILED" -gt 0 ]; then
+  echo "WARNING: ${FAILED} command(s) could not be installed. Check that"
+  echo "the commands/ directory is intact and try again."
+  echo ""
+fi
+
+echo "${INSTALLED} commands installed to ${COMMANDS_DIR}"
 echo ""
-echo "  Narrative and celebration:"
-echo "    /shipped-narrative      Prose narrative for all-hands and blog posts"
-echo "    /shipped-celebration    Team highlight reel with specific shoutouts"
-echo "    /shipped-delta          Period-over-period trend analysis"
+echo "Restart Claude Code to pick up the new commands, then try:"
 echo ""
-echo "Reference templates are in the reference/ and formats/ directories."
+echo "  /shipped <owner>/<repo> last week"
 echo ""
-echo "Done. Restart Claude Code to pick up the new commands."
