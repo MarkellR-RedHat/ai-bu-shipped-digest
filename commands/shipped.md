@@ -69,6 +69,35 @@ Then fetch details for relevant releases:
 gh release view <tag> --repo <repo> --json tagName,name,body,publishedAt
 ```
 
+## Step 3.5: Handle edge cases before analysis
+
+Before diving into themes, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs merged:**
+If nothing shipped in the period, say so directly. Do not pad the report with open PRs, draft work, or speculation. Produce a short report:
+- State the timeframe and confirm zero (or near-zero) PRs merged
+- If releases were tagged from earlier work, note those
+- Suggest the user check a wider timeframe or confirm the repo and date range
+- One honest sentence is better than a padded page. "Nothing shipped" is a valid, useful data point.
+
+**All dependency bumps, CI fixes, or bot-generated PRs:**
+This is still a story worth telling. Infrastructure and maintenance sprints happen, and they matter. Do not dismiss the period as uninteresting. Instead:
+- Theme the work around what it accomplishes: "Securing the supply chain," "Investing in CI reliability," "Modernizing the dependency stack"
+- Call out specific risks mitigated (CVEs patched, EOL versions replaced, flaky tests fixed)
+- Name the contributors. The person who spent their sprint on Dependabot PRs and CI plumbing deserves the same attribution as someone who shipped a feature.
+
+**Lopsided contributions (one person did 90%+ of the work):**
+Report it factually. Do not flatten contributions to make the distribution look even. If one engineer drove the sprint, say so, and explain what they focused on. Also note:
+- Whether other contributors did review work (reviews are real contributions even when they do not show up as merged PRs)
+- If this is a single-maintainer repo, that context changes the interpretation
+- Do not manufacture a "team effort" narrative when the data says otherwise
+
+**PRs spanning multiple repos:**
+If PR bodies reference issues or PRs in other repos, note those cross-repo connections in the relevant theme. A PR that ships the backend half of a feature while the frontend half lands in another repo is one initiative, not two unrelated items. Call out the connection explicitly.
+
+**Shortened or interrupted sprints (holidays, reorgs, incidents):**
+If the period is notably short or the user mentions the sprint was cut short, adjust expectations. Fewer PRs in a 3-day sprint is not a slowdown. Normalize by noting the effective duration when relevant.
+
 ## Step 4: Find the narrative thread
 
 Before classifying individual PRs, step back and identify the story:
