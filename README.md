@@ -1,12 +1,12 @@
 # shipped-digest
 
-**Turn merged PRs into digests worth reading.**
+**Your team shipped 23 PRs this week. Nobody can explain what that means.**
 
-## The Problem
-
-Your team shipped 23 PRs this week. Someone asks what that means for the product. You open GitHub, scroll through titles like `fix: update retry logic` and `refactor: extract helper`, and try to explain the story. It takes an hour. Or you skip it, and the work stays invisible.
+Someone opens GitHub, scrolls through titles like `fix: update retry logic` and `refactor: extract helper`, and tries to piece together the story. It takes an hour. Or they skip it, and the work stays invisible.
 
 The person who spent three days upgrading dependencies and patching a critical CVE gets the same acknowledgment as the person who fixed a typo: none.
+
+shipped-digest turns merged PRs into digests worth reading. It scans a repo's GitHub history, finds the narrative thread, and produces output shaped for the audience: themed digests for sprint reviews, stakeholder emails for leadership, Slack posts for the team channel, release notes for downstream users.
 
 ## Before and After
 
@@ -49,7 +49,7 @@ bash install.sh
 /shipped kubernetes/kubernetes last week
 ```
 
-That's it. Nine commands, globally available, no config files.
+Nine commands, globally available, no config files.
 
 ## Requirements
 
@@ -78,6 +78,16 @@ That's it. Nine commands, globally available, no config files.
 | `/shipped-celebration` | Highlight reel with specific shoutouts | Slack celebrations, team meetings |
 | `/shipped-delta` | Period-over-period trend analysis | Sprint retros, velocity discussions |
 
+### Typical Workflow
+
+1. **Run `/shipped`** after a sprint to get the themed digest.
+2. **Run `/shipped-email`** to produce a VP-ready briefing from the same data.
+3. **Post `/shipped-slack`** in your team channel so the work is visible.
+4. **Use `/shipped-celebration`** in your Slack channel to give specific credit.
+5. **Check `/shipped-delta`** before retro to see how the sprint compared to the previous one.
+
+For cross-repo portfolio views, run `/shipped-compare` with multiple repos to surface coordinated work that no single-repo view would reveal.
+
 ## Usage Examples
 
 ### Story-driven digest
@@ -94,7 +104,7 @@ Groups PRs into themes like "Making the scheduler production-ready" instead of f
 /shipped-email openshift/lightspeed-service last week
 ```
 
-Subject line worth opening, 50-word opening paragraph, "What Matters Most" section focused on business impact. The kind of email an engineering lead would send if they enjoyed writing.
+Subject line worth opening, 50-word opening paragraph, "What Matters Most" section focused on business impact. The kind of email an engineering lead would send if they had time and enjoyed writing.
 
 ### Narrative for all-hands
 
@@ -151,6 +161,22 @@ The commands use `gh` to pull merged PRs from the GitHub API. Each PR is analyze
 The key difference from traditional changelog generators: a feature PR, its follow-up fix, and the related performance improvement become one story, not three disconnected line items.
 
 No data leaves your machine beyond the standard GitHub API calls that `gh` already makes.
+
+## Workflow Tip
+
+One team runs `/shipped-email` every Friday at 4 PM and sends it to their skip-level. It takes about 90 seconds. Before shipped-digest, that email took 45 minutes to write and usually did not get sent at all. The work was invisible for six months until someone asked "what has your team been doing?" Now leadership forwards the email before they are asked.
+
+If you write a weekly status report, try piping `/shipped` output into `/status-report` from the [status-report](https://github.com/MarkellR-RedHat/ai-bu-status-report) tool. The digest becomes the "accomplishments" section with zero rewriting.
+
+## Suite Integration
+
+shipped-digest works well alongside other tools in the [AI BU suite](https://github.com/MarkellR-RedHat/ai-bu-hub):
+
+- **[status-report](https://github.com/MarkellR-RedHat/ai-bu-status-report)**: Feed `/shipped` output into `/status-report` for a complete weekly report.
+- **[meeting-notes](https://github.com/MarkellR-RedHat/ai-bu-meeting-notes)**: Use `/shipped` output as input for sprint review `/meeting-notes`.
+- **[message-polisher](https://github.com/MarkellR-RedHat/ai-bu-message-polisher)**: Polish `/shipped-email` output before sending to leadership.
+- **[style-checker](https://github.com/MarkellR-RedHat/ai-bu-style-checker)**: Run `/shipped-narrative` output through `/style-check` for brand voice consistency.
+- **[cfp-generator](https://github.com/MarkellR-RedHat/ai-bu-cfp-generator)**: Turn a strong `/shipped-narrative` into a conference talk abstract with `/cfp`.
 
 ## Reference Materials
 
