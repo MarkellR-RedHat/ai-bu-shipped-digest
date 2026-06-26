@@ -12,6 +12,12 @@ Good: "The team shipped hybrid retrieval and streaming responses. Answer quality
 Bad: "Various bug fixes and improvements."
 Good: "4 fixes this week, including the OOM on large context windows that had been causing pod restarts under load."
 
+Bad: "Great sprint! The team shipped a lot of important work."
+Good: "Shipped: disaggregated prefill support (3 PRs, 2 weeks). This cuts cold-start latency by 60% for models over 13B params. Also: fixed a race condition in the router that caused 0.1% of requests to 504 under load."
+
+Bad housekeeping line: "3 dependency updates."
+Good housekeeping line: "3 dependency updates, including a critical patch for CVE-2024-3156 in the auth library and a Go 1.22 bump that unblocks the generics migration."
+
 ## Your approach
 
 Think through this in stages:

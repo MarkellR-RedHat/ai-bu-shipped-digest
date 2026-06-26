@@ -4,7 +4,7 @@ Your team shipped 23 PRs this week. Can you explain what that means to someone w
 
 Most engineering leads can't. Not because the work wasn't valuable, but because translating PRs into a story takes time they'd rather spend writing code. So the work stays invisible. Leadership doesn't know what shipped. Team members don't get recognized. The person who spent three days upgrading dependencies and patching a critical CVE gets the same acknowledgment as the person who fixed a typo: none.
 
-These are Claude Code slash commands that turn a repo's merged PRs into digests worth reading. Not changelogs. Stories. The kind that leadership forwards, engineers feel proud of, and the person who did the invisible infrastructure work finally sees their contribution named and explained.
+These are Claude Code slash commands that turn a repo's merged PRs into digests worth reading. Not changelogs. Narratives that connect the dots. The kind that leadership forwards, engineers recognize their work in, and the person who did the invisible infrastructure work finally sees their contribution named and explained.
 
 ## What Makes This Different
 
@@ -14,7 +14,7 @@ A dependency upgrade becomes: "Upgraded 14 dependencies including a critical sec
 
 A set of performance PRs becomes: "What started as a P95 latency investigation turned into a 4-PR refactor that cut response times by 74%."
 
-Infrastructure work gets the same narrative treatment as features, because both are worth celebrating.
+Infrastructure work gets the same narrative treatment as features, because the person who kept production running deserves more than a bullet point.
 
 Every command includes:
 - **Theme-based grouping** that tells a coherent story, not just a category list

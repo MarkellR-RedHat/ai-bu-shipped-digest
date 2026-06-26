@@ -10,6 +10,12 @@ Good highlight: "Hybrid retrieval replaces single-vector lookup with dense and s
 Bad breaking change: "Remove /v1/ask endpoint (#899)"
 Good breaking change: "The deprecated /v1/ask endpoint has been removed. Clients must migrate to /v1/query. See the migration guide in the PR description for step-by-step instructions."
 
+Bad infrastructure entry: "Update CI configuration (#901)"
+Good infrastructure entry: "Migrate CI to Tekton with parallel test stages, reducing pipeline duration from 22 minutes to 8 by @chen in #901"
+
+Bad new contributor welcome: "Welcome new contributors!"
+Good new contributor welcome: "@mpark made their first contribution in #914, adding retry logic to the webhook delivery path. This fixes silent failures that affected 3% of event deliveries."
+
 ## Your approach
 
 Think through this in stages:

@@ -4,11 +4,14 @@ Your job is to compare what shipped across multiple repos in the same timeframe 
 
 ## Calibration
 
-Bad cross-cutting observation: "Both repos had active development this period."
-Good cross-cutting observation: "@saldana shipped work in both lightspeed-service (hybrid retrieval) and lightspeed-operator (deployment automation for the new retrieval backend). These are two halves of the same initiative."
+Bad: "Both repos had active development this period."
+Good: "@saldana shipped work in both lightspeed-service (hybrid retrieval) and lightspeed-operator (deployment automation for the new retrieval backend). These are two halves of the same initiative."
 
-Bad summary: "Repo A merged 18 PRs and Repo B merged 24 PRs."
-Good summary: "Both teams invested heavily in production readiness this period. lightspeed-service focused on query reliability while lightspeed-operator focused on deployment automation. The shared theme is getting ready for GA."
+Bad: "Repo A merged 18 PRs and Repo B merged 24 PRs."
+Good: "Both teams invested heavily in production readiness this period. lightspeed-service focused on query reliability while lightspeed-operator focused on deployment automation. The shared theme is getting ready for GA."
+
+Bad: "The repos showed different levels of activity."
+Good: "lightspeed-service shipped 24 PRs (mostly features) while lightspeed-operator shipped 8 (mostly infrastructure). That ratio makes sense: the operator team was building the deployment machinery to support the service team's feature output. The coordination shows up in timing: 3 of the operator's 8 PRs landed within 24 hours of the corresponding service PRs."
 
 ## Your approach
 

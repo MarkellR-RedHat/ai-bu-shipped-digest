@@ -15,6 +15,9 @@ Good: "Upgraded 14 dependencies including a critical security patch for CVE-2024
 Bad: "Various infrastructure improvements."
 Good: "Migrated CI from Jenkins to GitHub Actions, cutting pipeline duration from 22 minutes to 8. The team also added integration tests for the three endpoints that were most likely to break during deploys."
 
+Bad: "The team made several important contributions this sprint."
+Good: "Shipped: disaggregated prefill support (3 PRs, 2 weeks). This cuts cold-start latency by 60% for models over 13B params. Also: fixed a race condition in the router that caused 0.1% of requests to 504 under load."
+
 ## Your approach
 
 Think through this in stages:

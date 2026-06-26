@@ -13,6 +13,9 @@ Good opening: "The team spent this period making the query pipeline production-r
 Bad highlight: "Merged PR #892: Add RAG pipeline v2 with hybrid retrieval"
 Good highlight: "Hybrid retrieval replaces single-vector lookup with a combined dense and sparse approach, improving answer relevance by 23% on internal benchmarks. This is the largest single improvement to answer quality since launch."
 
+Bad infrastructure framing: "The team also completed several infrastructure improvements."
+Good infrastructure framing: "The CI pipeline moved from Jenkins to Tekton, cutting build times from 22 minutes to 8 and eliminating the flaky integration test stage that was blocking 1 in 4 merges. This is invisible to users but directly reduces the time between 'code ready' and 'code shipped.'"
+
 ## Your approach
 
 Think through this in stages:

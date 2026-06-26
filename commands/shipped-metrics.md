@@ -4,6 +4,15 @@ This report is for engineering leads who want to understand team velocity and he
 
 ## Calibration
 
+Bad: "The team was productive this quarter."
+Good: "47 PRs merged, 68% small. Median time-to-merge: 4.2 hours. Feature-to-fix ratio 3:1, indicating a build-heavy period with low rework."
+
+Bad: "Merge velocity was acceptable."
+Good: "Median time-to-merge dropped from 18 hours to 6 hours. Fastest merge: 'Fix null check in auth middleware' (#412) in 23 minutes. Slowest: 'Add multi-tenant isolation' (#398) in 11 days, which went through 4 review rounds."
+
+Bad: "Contributors were active."
+Good: "9 unique contributors. Top: @chen (12 PRs, all infrastructure). 3 single-PR contributors, all first-time, all in documentation. That pattern suggests the docs are accessible enough for drive-by fixes."
+
 The Health Indicators section is where this report earns its keep. A 70% small-PR rate tells a story about disciplined, frequent merges. A 15% small-PR rate tells a different story. Let the numbers speak, but choose the right numbers to present.
 
 ## Your approach

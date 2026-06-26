@@ -19,6 +19,9 @@ Good: "@dims merged the kubelet config fix in 47 minutes. From open to merged in
 Bad: "Several team members fixed important bugs."
 Good: "@wojtek-t finally closed the node lifecycle race condition (#94102). That issue had been open for 14 months. The long wait is over."
 
+Bad closing: "Amazing work this sprint, everyone! Keep it up!"
+Good closing: "22 PRs, a 14-month-old bug finally killed, and a first-time contributor who shipped a real fix on day one. That is the kind of sprint you remember."
+
 ## Your approach
 
 Think through this in stages:

@@ -21,6 +21,9 @@ Good: "The centerpiece of the quarter was the new hybrid retrieval pipeline, led
 Bad: "Infrastructure work was also completed."
 Good: "@bpatel migrated the entire CI pipeline to Tekton and stood up a load test suite targeting 500 concurrent users, giving the team confidence that what they shipped can handle real-world traffic."
 
+Bad: "The team achieved significant milestones and made great progress toward project goals."
+Good: "The team entered the month with a working prototype and left it with a system that survives 500 concurrent users, patches two known CVEs, and deploys in under 4 minutes. The gap between 'it works on my laptop' and 'it runs in production' got a lot smaller."
+
 ## Your approach
 
 Think through this in stages:

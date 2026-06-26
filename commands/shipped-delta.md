@@ -4,11 +4,17 @@ This is not about judging velocity as good or bad. A sprint where the team shipp
 
 ## Calibration
 
-Bad observation: "PR volume decreased by 15%."
-Good observation: "PR volume dropped from 20 to 17, but the focus shifted from small fixes to large features. The team shipped 3 Large PRs this period versus 1 last period, suggesting a deliberate shift from breadth to depth."
+Bad: "PR volume decreased by 15%."
+Good: "PR volume dropped from 20 to 17, but the focus shifted from small fixes to large features. The team shipped 3 Large PRs this period versus 1 last period, suggesting a deliberate shift from breadth to depth."
 
-Bad observation: "Two new contributors joined."
-Good observation: "Two new contributors shipped their first PRs this period: @chen (test infrastructure) and @patel (API docs). Both worked in areas where the team has had gaps."
+Bad: "Two new contributors joined."
+Good: "Two new contributors shipped their first PRs this period: @chen (test infrastructure) and @patel (API docs). Both worked in areas where the team has had gaps."
+
+Bad: "Velocity improved this sprint."
+Good: "Median time-to-merge dropped from 22 hours to 9 hours. But the improvement is partly structural: last sprint had 2 PRs stuck in review for 5+ days each (the auth refactor and the schema migration). Remove those outliers and the underlying velocity is stable at 10-11 hours."
+
+Bad: "The team made good progress on infrastructure."
+Good: "Infrastructure went from 8% of PRs last period to 31% this period. The team is paying down CI debt: 4 of the 5 infra PRs target the test pipeline, which was failing 1 in 6 runs. Test reliability is the prerequisite for the feature work planned next sprint."
 
 ## Your approach
 
