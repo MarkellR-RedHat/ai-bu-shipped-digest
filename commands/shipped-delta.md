@@ -62,6 +62,25 @@ Also fetch releases for both periods:
 gh release list --repo <repo> --limit 50
 ```
 
+## Step 2.5: Handle edge cases before analysis
+
+Before computing metrics, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs in one or both periods:**
+If either period had nothing ship, say so directly. A period-over-period comparison with zero on one side is still informative: it shows the team either ramped up or went quiet, and the context matters. Do not pad the empty period with open PRs or draft work.
+
+**All dependency bumps, CI fixes, or bot-generated PRs:**
+If one or both periods consist entirely of maintenance work, the delta is still meaningful. A shift from feature-heavy to maintenance-heavy (or vice versa) signals a deliberate change in priorities. Theme it honestly: "The team shifted from building to stabilizing" or "Maintenance investment doubled, driven by CVE remediation."
+
+**Lopsided contributions (one person did 90%+ of the work):**
+Report the contributor delta factually. If a single engineer drove one period and the team spread effort in the next, that is a pattern worth naming. Do not normalize the contributor distribution to make it look more even than it was.
+
+**PRs spanning multiple repos:**
+If PR bodies reference issues or PRs in other repos, note those cross-repo connections. A delta that shows increased cross-repo coordination is a signal about how the team's scope is evolving.
+
+**Shortened or interrupted sprints:**
+If periods are not the same effective length (holidays, reorgs, incidents), normalize your interpretation. Fewer PRs in a 3-day week is not a slowdown. State the effective duration when relevant and avoid false trend signals.
+
 ## Step 3: Compute metrics for both periods
 
 For each period, calculate:
@@ -192,3 +211,5 @@ Use these Unicode indicators in the Change column:
 - Stable (within 10%): the word "stable" followed by a level indicator
 
 For volume and velocity, use the up/down/stable labels. Do not editorialize about whether up or down is good or bad in the table itself. Save interpretation for the Key Observations section, where you can provide the context that makes the numbers meaningful.
+
+**Cross-tool:** For raw metrics on either period individually, run `/shipped-metrics <repo> <timeframe>`.

@@ -71,6 +71,22 @@ To find long-standing issues that were closed by merged PRs, look for issue refe
 gh issue view <number> --repo <repo> --json createdAt,title
 ```
 
+## Step 3.5: Handle edge cases before analysis
+
+Before identifying highlights, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs merged:**
+If nothing shipped in the period, say so directly. Do not invent awards from nothing. Produce a short message that confirms the timeframe, notes zero PRs merged, and suggests the user check a wider date range or a different repo. One honest sentence beats a padded celebration post.
+
+**All dependency bumps, CI fixes, or bot-generated PRs:**
+These still deserve recognition. The person who spent their sprint reviewing Dependabot PRs and fixing CI plumbing did real work. Create awards like "Supply Chain Guardian" or "Pipeline Wrangler" and explain the specific risks they mitigated (CVEs patched, EOL runtimes replaced, flaky tests stabilized). Do not skip the celebration just because no features shipped.
+
+**Lopsided contributions (one person did 90%+ of the work):**
+Report it factually. If one engineer drove the sprint, they earned the spotlight. Do not manufacture a team narrative when the data says one person carried the load. Note whether others contributed through reviews, which are real work even when they do not produce merged PRs. If this is a single-maintainer repo, say so and adjust the tone accordingly.
+
+**PRs spanning multiple repos:**
+If PR bodies reference issues or PRs in other repos, note those cross-repo connections in the relevant award. An engineer who shipped coordinated changes across two repos in the same sprint deserves that context in their shoutout.
+
 ## Step 4: Identify the highlight categories
 
 Analyze the data to find standout moments in these categories:
@@ -175,3 +191,5 @@ Removed *<count> lines*, making the codebase leaner and more maintainable. <One 
 - If multiple people tie for a category (e.g., two people each shipped 5 PRs), mention both.
 - First-time contributor detection is best-effort. If you cannot determine this reliably, omit the section.
 - The closing line should reference something specific about this sprint or period. "Great work, team" is not specific enough. Try something like "42 PRs, 3 long-standing bugs closed, and a first-time contributor. That is a sprint to remember."
+
+**Cross-tool:** For the full themed changelog behind these shoutouts, run `/shipped <repo> <timeframe>`.

@@ -226,3 +226,5 @@ Format the output like this:
 Omit any section that has zero entries. Omit the Breaking Changes section if there are none.
 
 Write for an audience of engineering leads who need to show leadership what the team accomplished, and team members who want to feel that their work is seen. Be direct. Be honest. Give credit. Tell the story. Elevate the invisible work.
+
+**Cross-tool:** For a prose narrative version, run `/shipped-narrative <repo> <timeframe>`. For Slack, run `/shipped-slack <repo> <timeframe>`.

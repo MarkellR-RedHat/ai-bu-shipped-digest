@@ -66,6 +66,22 @@ Fetch details for relevant releases:
 gh release view <tag> --repo <repo> --json tagName,name,body,publishedAt
 ```
 
+## Step 3.5: Handle edge cases before analysis
+
+Before grouping by theme, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs merged:**
+If nothing shipped in the period, say so directly. Produce a short Slack message that confirms the timeframe and notes zero PRs merged. Do not pad with open PRs or speculation. One honest line in Slack is better than a padded update that makes the team cringe. If releases were tagged from earlier work, note those.
+
+**All dependency bumps, CI fixes, or bot-generated PRs:**
+This is still a Slack-worthy update. The framing shifts: "The team invested in reliability this sprint" with specific callouts for CVEs patched, EOL versions replaced, or flaky tests fixed. Name the people who did the work. Infrastructure sprints deserve the same visibility as feature sprints.
+
+**Lopsided contributions (one person did 90%+ of the work):**
+Report it factually. If one engineer carried the sprint, name them and explain what they focused on. Do not flatten contributions to manufacture a team narrative. The Contributors line at the bottom will show the natural distribution. Note review contributions where visible.
+
+**PRs spanning multiple repos:**
+If PR bodies reference issues or PRs in other repos, note the cross-repo connection in the relevant theme. Engineers reading Slack want to know when a change in their repo has a counterpart landing somewhere else.
+
 ## Step 4: Find the story and group by theme
 
 Do not just dump PRs into Features/Bugs buckets. Find 2-4 themes based on what the team was actually working on, and group PRs accordingly.
@@ -143,3 +159,5 @@ Omit any section that has zero entries. If there are more than 5 items in any th
 Housekeeping is intentionally compressed: a count and a brief summary, not individual line items. But give it impact context. Not "3 dependency updates" but "3 dependency updates including a security patch for the auth library." If there are only 1-2 housekeeping items, list them normally.
 
 Do not wrap the output in a code block. The output should be the raw Slack message, ready to paste. Keep it dense and scannable. Slack messages that are too long get ignored.
+
+**Cross-tool:** For a longer stakeholder email version, run `/shipped-email <repo> <timeframe>`.

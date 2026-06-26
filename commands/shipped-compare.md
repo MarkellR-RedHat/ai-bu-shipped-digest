@@ -50,6 +50,22 @@ Also check for releases:
 gh release list --repo <repo> --limit 20
 ```
 
+## Step 2.5: Handle edge cases before analysis
+
+Before analyzing, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs in one or more repos:**
+If a repo had nothing ship in the period, say so directly. Do not pad its section with open PRs or speculation. State the timeframe, confirm zero PRs merged, and note whether releases were tagged from earlier work. A repo with no activity is a valid data point that helps leadership understand where effort went.
+
+**All dependency bumps, CI fixes, or bot-generated PRs in a repo:**
+This is still a story worth comparing. If one repo shipped features while another spent the period on supply chain hardening, that contrast is the insight. Theme the maintenance repo's work around what it accomplished: "Securing the dependency stack," "Investing in CI reliability." Do not dismiss it as uninteresting.
+
+**Lopsided contributions (one person did 90%+ across repos):**
+Report it factually. If one engineer drove work across multiple repos, that cross-repo contribution is the most valuable signal in the comparison. Do not flatten contributions to make the distribution look even across repos.
+
+**PRs spanning multiple repos:**
+This is the core value of a comparison digest. When PR bodies reference issues or PRs in another repo being compared, call out the connection explicitly. These cross-repo links are the coordination pattern that leadership cannot see from individual repo views.
+
 ## Step 3: For each repo, find the story and group by theme
 
 For each repo independently:
@@ -137,3 +153,5 @@ Contributors who merged PRs in more than one repo during this period:
 ```
 
 Keep it factual. Write for an audience that wants cross-team visibility without reading every repo's changelog individually. The value is in the cross-cutting analysis, not just putting two changelogs next to each other.
+
+**Cross-tool:** For a deep dive into any single repo listed here, run `/shipped <repo> <timeframe>`.

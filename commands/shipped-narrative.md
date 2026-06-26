@@ -73,6 +73,22 @@ Fetch details for relevant releases:
 gh release view <tag> --repo <repo> --json tagName,name,body,publishedAt
 ```
 
+## Step 3.5: Handle edge cases before analysis
+
+Before constructing the narrative, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs merged:**
+If nothing shipped in the period, say so directly. A narrative of "nothing shipped" is still a story worth telling in one paragraph: confirm the timeframe, note the absence of merged work, and close. Do not pad with open PRs or speculation. If releases were tagged from earlier work, note those.
+
+**All dependency bumps, CI fixes, or bot-generated PRs:**
+This is still a story. The narrative arc shifts from "what did the team build" to "what did the team invest in." Infrastructure sprints have their own drama: a critical CVE patch, a major runtime upgrade, a CI pipeline that was failing 1 in 6 runs. Find the tension and resolution in the maintenance work. "The team spent the period paying down technical debt" is not boring if you explain why the debt was dangerous.
+
+**Lopsided contributions (one person did 90%+ of the work):**
+Tell the story honestly. If one engineer drove the sprint, the narrative follows their work. Do not spread credit to manufacture a team narrative when the data says otherwise. Note whether others contributed through reviews or coordination work that supported the primary contributor.
+
+**PRs spanning multiple repos:**
+If PR bodies reference issues or PRs in other repos, weave those cross-repo connections into the narrative naturally. A feature that shipped half its implementation in another repo is one initiative, and the narrative should connect both halves even though this digest only covers one repo.
+
 ## Step 4: Deep analysis for narrative construction
 
 Go beyond surface-level classification. For each PR, understand:
@@ -148,6 +164,7 @@ Format the output like this:
 *Based on <total PR count> merged pull requests and <release count> releases.*
 
 **Detailed changelog:** Run `/shipped <repo> <timeframe>` for the full breakdown.
+**Stakeholder email:** Run `/shipped-email <repo> <timeframe>` for a VP-ready briefing.
 ```
 
 Write in active voice. Use short sentences when making important points. Use longer sentences to connect ideas. Vary the rhythm.

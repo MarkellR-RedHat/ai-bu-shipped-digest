@@ -64,6 +64,22 @@ Fetch details for relevant releases:
 gh release view <tag> --repo <repo> --json tagName,name,body,publishedAt
 ```
 
+## Step 3.5: Handle edge cases before analysis
+
+Before writing anything, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs merged:**
+If nothing shipped in the period, say so directly. Do not pad the email with open PRs, draft work, or speculation. A short email that confirms the timeframe and notes zero PRs merged is more credible than a padded page. Suggest the user check a wider date range or confirm the repo and date range. Leadership respects brevity and honesty more than manufactured content.
+
+**All dependency bumps, CI fixes, or bot-generated PRs:**
+This is still worth an email, but the framing changes. Lead with risk reduction and operational investment, not feature delivery. "The team spent this period securing the supply chain and hardening the CI pipeline" is an honest, compelling framing that a VP will understand. Call out specific risks mitigated (CVEs patched, EOL versions replaced, flaky tests stabilized).
+
+**Lopsided contributions (one person did 90%+ of the work):**
+Report it factually. If one engineer drove the sprint, name them and explain what they focused on. Leadership wants to know who to recognize, and flattening the contribution picture to look more distributed is dishonest. Note whether others contributed through reviews, which do not show up as merged PRs but are real work.
+
+**PRs spanning multiple repos:**
+If PR bodies reference issues or PRs in other repos, note those cross-repo connections. An executive reading about a backend change wants to know if there is a corresponding frontend or operator change landing in another repo. Call out the coordination explicitly.
+
 ## Step 4: Think like an executive reader
 
 Before writing anything, answer these questions:
@@ -163,3 +179,5 @@ Reply to this thread if you want a deeper dive into any of these changes.
 ```
 
 Omit any section that has zero entries. Keep the total email under 500 words where possible. The tone is professional and direct: an engineer briefing leadership, not a marketing team writing a press release. Every sentence carries information. No filler. No fluff. The team should be proud to see this forwarded.
+
+**Cross-tool:** For a Slack-ready version of this same update, run `/shipped-slack <repo> <timeframe>`.

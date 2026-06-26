@@ -57,6 +57,22 @@ gh api repos/<owner>/<repo>/git/refs/tags/<tag> --jq '.object.sha' | xargs -I {}
 gh release list --repo <repo> --limit 50
 ```
 
+## Step 3.5: Handle edge cases before analysis
+
+Before computing metrics, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs merged:**
+If nothing shipped in the period, say so directly. Produce a short report that confirms the timeframe and notes zero PRs merged. Do not pad with open PRs or draft work. All metric tables should show zeros rather than being omitted, so the reader sees that the data was checked and found empty. Suggest the user check a wider date range or confirm the repo.
+
+**All dependency bumps, CI fixes, or bot-generated PRs:**
+Compute the metrics the same way you would for any other period. The category breakdown will tell the story: 100% Infrastructure is a data point, not a problem. Let the numbers speak. The Health Indicators section is where this pattern becomes visible (feature-to-fix ratio near 0:1 signals a maintenance period, and that is valid information).
+
+**Lopsided contributions (one person did 90%+ of the work):**
+Report the contributor metrics factually. The top-contributor table will show the concentration naturally. If one person accounts for the vast majority of PRs, the single-PR contributor percentage and contributor count will surface the pattern without editorializing.
+
+**PRs spanning multiple repos:**
+Metrics are scoped to a single repo, so cross-repo PRs only show up as the PR that landed in this repo. Note in the output footer if PR bodies frequently reference other repos, as that context helps the reader understand that the full effort picture spans multiple repositories.
+
 ## Step 4: Compute metrics
 
 Calculate ALL of the following metrics from the fetched data:
@@ -184,3 +200,5 @@ Format the output like this:
 ```
 
 Stick to the numbers. The Health Indicators section provides simple signal labels, but do not add commentary, opinions, or recommendations beyond those labels. Let the data speak.
+
+**Cross-tool:** For period-over-period comparison of these metrics, run `/shipped-delta <repo> <timeframe>`.

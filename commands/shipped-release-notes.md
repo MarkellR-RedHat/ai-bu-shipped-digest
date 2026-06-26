@@ -63,6 +63,22 @@ Fetch details for relevant releases:
 gh release view <tag> --repo <repo> --json tagName,name,body,publishedAt
 ```
 
+## Step 3.5: Handle edge cases before analysis
+
+Before classifying changes, check for these situations and handle them honestly:
+
+**Zero or near-zero PRs merged:**
+If nothing shipped in the period, say so directly. Produce a minimal release notes stub that confirms the timeframe and notes zero changes. Do not pad with open PRs or draft work. If releases were tagged from earlier work, include those release details. Suggest the user check a wider date range or confirm the repo.
+
+**All dependency bumps, CI fixes, or bot-generated PRs:**
+Release notes for a maintenance-only period are still valuable. Group the work under "Other Changes" per GitHub conventions, but include impact context: CVEs patched, EOL versions replaced, CI reliability improvements. Users reading release notes want to know if they need to act on anything, and a security patch buried in a dependency bump is actionable information.
+
+**Lopsided contributions (one person did 90%+ of the work):**
+Report contributor attribution factually. The Contributors section will naturally reflect the distribution. If one person did the bulk of the work, the New Contributors section and contributor list will show the pattern without editorializing.
+
+**PRs spanning multiple repos:**
+If PR bodies reference issues or PRs in other repos, note those cross-repo connections in the relevant section. A feature that requires coordinated upgrades across repos is critical information for users reading release notes to decide whether to upgrade.
+
 ## Step 4: Classify and group changes
 
 Group PRs into standard release note categories, but apply intelligent grouping:
@@ -167,3 +183,5 @@ Thanks to the <contributor count> contributors who made this release possible:
 - Keep descriptions to one sentence per item.
 - Do not editorialize. Stick to what actually shipped.
 - If you cannot reliably determine new contributors, omit the New Contributors section rather than guessing.
+
+**Cross-tool:** For a narrative summary to accompany these notes, run `/shipped-narrative <repo> <timeframe>`.
