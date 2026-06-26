@@ -19,10 +19,10 @@ Convert the timeframe into concrete dates or a tag reference:
 
 ## Step 2: Fetch merged PRs
 
-Use the GitHub CLI to list merged PRs in the date range:
+Use the GitHub CLI to list merged PRs in the date range. Fetch enough data to support grouping, attribution, and impact sizing:
 
 ```
-gh pr list --repo <repo> --state merged --search "merged:>=YYYY-MM-DD" --limit 200 --json number,title,body,labels,mergedAt,author,url
+gh pr list --repo <repo> --state merged --search "merged:>=YYYY-MM-DD" --limit 200 --json number,title,body,labels,mergedAt,author,url,additions,deletions,changedFiles
 ```
 
 If the timeframe references a tag, first get the tag date:
@@ -56,50 +56,91 @@ Read each PR title, body, and labels. Classify into these categories:
 
 Use labels as a strong signal (e.g., "bug", "feature", "enhancement", "breaking"). Fall back to title and body analysis when labels are missing.
 
-## Step 5: Identify top 3 most impactful changes
+### Intelligent grouping of related PRs
+
+After initial classification, scan for related PRs and group them together:
+
+- **Feature + follow-up fix**: If a bug fix PR references a recent feature PR (by number, branch name, or description), nest the fix under the feature as a sub-bullet rather than listing it separately in Bug Fixes.
+- **Multi-part work**: If multiple PRs share a common prefix, reference the same issue, or describe parts of the same feature (e.g., "Add widget API", "Add widget UI", "Add widget tests"), group them as a single entry with sub-bullets.
+- **Revert + re-land**: If a PR was reverted and then re-landed, show only the final landed version with a note.
+
+When grouping, use the pattern:
+```
+- <primary PR title> ([#<number>](<url>))
+  - Follow-up: <fix/improvement title> ([#<number>](<url>))
+```
+
+## Step 5: Assign impact sizing
+
+For each PR, assign an impact size based on the following:
+
+| Size | Criteria |
+|------|----------|
+| **Large** | 500+ lines changed OR 10+ files touched OR introduces a new user-facing feature or breaking change |
+| **Medium** | 100-499 lines changed OR 4-9 files touched OR meaningful bug fix |
+| **Small** | Under 100 lines changed AND 3 or fewer files touched AND minor fix, docs, or infra |
+
+Show the size as a tag next to each item: `[L]`, `[M]`, or `[S]`.
+
+## Step 6: Identify top 3 most impactful changes
 
 Pick the 3 most significant changes based on:
-- Size of the PR (lines changed, files touched)
+- Impact size (prefer Large items)
 - Whether it is a new feature vs. a minor fix
 - Whether it was mentioned in a release
 - Whether the title or body suggests broad user impact
 
-## Step 6: Produce the digest
+## Step 7: Build the contributor summary
+
+Collect unique authors from all merged PRs. List the top contributors by PR count. This gives leadership visibility into who is driving the work.
+
+## Step 8: Produce the digest
 
 Format the output like this:
 
 ```
 # What Shipped: <repo name>
-## <timeframe>
+## <timeframe> (<start date> to <end date>)
 
 ### Top Highlights
-1. **<title>** - <one-sentence summary> ([#<number>](<url>))
-2. **<title>** - <one-sentence summary> ([#<number>](<url>))
-3. **<title>** - <one-sentence summary> ([#<number>](<url>))
+1. **<title>** - <one-sentence summary> ([#<number>](<url>)) `[L]`
+2. **<title>** - <one-sentence summary> ([#<number>](<url>)) `[M]`
+3. **<title>** - <one-sentence summary> ([#<number>](<url>)) `[L]`
 
 ---
 
 ### Features
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[L]`
   <one-line summary if helpful>
+  - Follow-up: <fix title> ([#<number>](<url>)) `[S]`
+- <title> ([#<number>](<url>)) `[M]`
 
 ### Bug Fixes
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[S]`
 
 ### Performance
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[M]`
 
 ### Documentation
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[S]`
 
 ### Infrastructure
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[S]`
 
 ### Breaking Changes
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[L]`
 
 ---
-*<total PR count> PRs merged, <release count> releases tagged.*
+
+### Contributors
+
+| Contributor | PRs |
+|-------------|-----|
+| @<username> | <count> |
+| @<username> | <count> |
+
+---
+*<total PR count> PRs merged by <contributor count> contributors, <release count> releases tagged.*
 ```
 
 Omit any section that has zero entries. Keep summaries short and direct. Write for an audience of PMs, PMMs, and engineering leads who need to understand what shipped without reading every PR.

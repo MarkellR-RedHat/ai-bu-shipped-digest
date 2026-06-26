@@ -22,7 +22,7 @@ Convert the timeframe into concrete dates or a tag reference:
 Use the GitHub CLI to list merged PRs in the date range:
 
 ```
-gh pr list --repo <repo> --state merged --search "merged:>=YYYY-MM-DD" --limit 200 --json number,title,body,labels,mergedAt,author,url
+gh pr list --repo <repo> --state merged --search "merged:>=YYYY-MM-DD" --limit 200 --json number,title,body,labels,mergedAt,author,url,additions,deletions,changedFiles
 ```
 
 If the timeframe references a tag, first get the tag date:
@@ -45,11 +45,32 @@ gh release view <tag> --repo <repo> --json tagName,name,body,publishedAt
 
 Group PRs into: Features, Bug Fixes, Performance, Documentation, Infrastructure, Breaking Changes. Use labels first, then title/body analysis.
 
-## Step 5: Identify top 3 highlights
+### Intelligent grouping of related PRs
+
+Scan for related PRs and group them:
+- If a bug fix references a recent feature PR (by number, branch name, or description), nest the fix under the feature instead of listing it separately.
+- If multiple PRs describe parts of the same feature, group them as a single entry with sub-bullets.
+- If a PR was reverted and re-landed, show only the final version.
+
+## Step 5: Assign impact sizing
+
+For each PR, assign an impact size:
+
+| Size | Criteria |
+|------|----------|
+| **Large** | 500+ lines changed OR 10+ files touched OR new user-facing feature or breaking change |
+| **Medium** | 100-499 lines changed OR 4-9 files touched OR meaningful bug fix |
+| **Small** | Under 100 lines changed AND 3 or fewer files AND minor fix, docs, or infra |
+
+## Step 6: Identify top 3 highlights
 
 Pick the 3 most impactful changes based on scope, user impact, and whether they appeared in a release.
 
-## Step 6: Format as a stakeholder email
+## Step 7: Build the contributor summary
+
+Collect unique authors from all merged PRs. Identify top contributors by PR count.
+
+## Step 8: Format as a stakeholder email
 
 Produce output in this format:
 
@@ -60,41 +81,50 @@ Produce output in this format:
 
 Hi team,
 
-Here is a summary of what shipped in **<repo name>** during **<timeframe>**.
+Here is a summary of what shipped in **<repo name>** during **<timeframe>** (<start date> to <end date>).
 
 ### At a Glance
-- **<total PRs>** pull requests merged
+- **<total PRs>** pull requests merged by **<contributor count>** contributors
 - **<release count>** releases published
 - **<feature count>** new features, **<fix count>** bug fixes
+- **Impact breakdown:** <large count> large, <medium count> medium, <small count> small changes
 
 ### Highlights
 
-1. **<title>** - <two-sentence summary of what it does and why it matters.> [View PR](<url>)
+1. **<title>** - <two-sentence summary of what it does and why it matters.> [View PR](<url>) `[L]`
 
-2. **<title>** - <two-sentence summary.> [View PR](<url>)
+2. **<title>** - <two-sentence summary.> [View PR](<url>) `[M]`
 
-3. **<title>** - <two-sentence summary.> [View PR](<url>)
+3. **<title>** - <two-sentence summary.> [View PR](<url>) `[L]`
 
 ### Full Changelog
 
 **Features**
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[L]`
+  - Follow-up: <fix title> ([#<number>](<url>)) `[S]`
 
 **Bug Fixes**
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[S]`
 
 **Performance**
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[M]`
 
 **Infrastructure**
-- <title> ([#<number>](<url>))
+- <title> ([#<number>](<url>)) `[S]`
 
 **Breaking Changes**
-- <title> ([#<number>](<url>)) - <brief note on what breaks and what to do>
+- <title> ([#<number>](<url>)) `[L]` - <brief note on what breaks and what to do>
 
 ### Releases
 
 - **<version>** (<date>) - [Release notes](<url>)
+
+### Top Contributors
+
+| Contributor | PRs |
+|-------------|-----|
+| @<username> | <count> |
+| @<username> | <count> |
 
 ---
 
